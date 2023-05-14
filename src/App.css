@@ -1,0 +1,73 @@
+.App {
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+
+.container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.main-content {
+  display: flex;
+  flex-grow: 1;
+}
+
+.main-content > .col-md-4 {
+  border-right: 1px solid #dee2e6;
+  height: calc(100vh - 180px);
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-right: 10px;
+}
+
+.main-content > .col-md-8 {
+  padding-left: 0;
+}
+
+.card {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  cursor: pointer;
+  text-align: left;
+}
+.form-left-aligned {
+  text-align: start;
+}
+
+.rjsf .form-group.field.field-object {
+  margin-left: 10px;
+  text-align: left;
+  margin-right: 10px;
+}
+
+.rjsf .form-group.field.field-object > legend {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.rjsf .form-group.field.field-object > .form-group.fields {
+  margin-left: 20px;
+}

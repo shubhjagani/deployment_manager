@@ -1,0 +1,23 @@
+application:
+  name: QA File
+deployment:
+  vaultIntegrationEnabled: true
+  tag: ''
+  resources:
+    limits:
+      cpu: 1
+      memory: 1G
+    requests:
+      cpu: 500m
+      memory: 128Mi
+  envFrom:
+    - secretRef:
+        name: ''
+service:
+  port: 80
+HPA:
+  maxReplicas: 4
+  targetCPUUtilization: 80
+ingress:
+  enabled: true
+  path: null

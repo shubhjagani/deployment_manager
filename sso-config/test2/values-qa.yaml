@@ -1,0 +1,39 @@
+application:
+  name: "Test Application"
+
+## ------------------------------------------------
+## K8S Deployment parameters
+## ------------------------------------------------
+deployment:
+  vaultIntegrationEnabled: false
+  tag: 234823428tag
+  resources:
+    limits:
+      cpu: 1
+      memory: 1G
+    requests:
+      cpu: 500m
+      memory: 128Mi  
+  envFrom:
+    - secretRef:
+        name: "secretRef Name"
+
+## ------------------------------------------------
+## K8S Service parameters
+## ------------------------------------------------
+service:
+  port: 80
+
+## ------------------------------------------------
+## K8S HorizontalPodAutoscaler parameters
+## ------------------------------------------------
+HPA:
+  maxReplicas: 4
+  targetCPUUtilization: 80
+
+## ------------------------------------------------
+## K8S Ingress parameters
+## ------------------------------------------------
+ingress:
+  enabled: true
+  path: 

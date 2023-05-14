@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id     Int       @id @default(autoincrement())
+  name        String?
+  email       String?
+  role_type   String?
+  created_at  DateTime?
+  roles       Role[]    @relation("UserRole")
+  userTools   UserToolAccount[]
+  userEntityRoles UserEntityRole[]
+  @@map("user")
+}
+
+model Entity {
+  entity_id         Int       @id @default(autoincrement())
+  parent_entity_id  Int?
+  entity_name       String?
+  entity_type       String?
+  hierarchy_ids     Int[]
+  entityTools       EntityTool[]
+  usersRoles        UserEntityRole[]
+  @@map("entity")
+}
+
+model Tool {
+  tool_id              Int                      @id @default(autoincrement())
+  tool_name            String?
+  tool_code            String?
+  tool_ref_description String?
+  entityTools          EntityTool[]
+  toolResources        ToolResource[]
+  userToolAccounts     UserToolAccount[]
+  @@map("tool")
+}
+
+model Role {
+  role_id   Int          @id @default(autoincrement())
+  role_name String?
+  users     User[]       @relation("UserRole")
+  roleTools RoleToolPermission[]
+  userEntityRoles UserEntityRole[]
+  @@map("role")
+}
+
+model EntityTool {
+  entity_id   Int
+  tool_id     Int
+  tool_ref_ids String[]
+  entity      Entity @relation(fields: [entity_id], references: [entity_id])
+  tool        Tool   @relation(fields: [tool_id], references: [tool_id])
+  @@id([entity_id, tool_id])
+  @@map("entity_tool")
+}
+
+model ToolResource {
+  tool_resource_id         Int            @id @default(autoincrement())
+  parent_tool_resource_id  Int?
+  tool_id                  Int
+  action_name              String?
+  endpoint_url             String?
+  tool                     Tool          @relation(fields: [tool_id], references: [tool_id])
+  toolResourceAccessLevels ToolResourceAccessLevel[]
+  @@map("tool_resource")
+}
+
+model ToolResourceAccessLevel {
+  tool_resource_access_id Int            @id @default(autoincrement())
+  tool_resource_id        Int
+  access_name             String?
+  access_key              String?
+  toolResource            ToolResource   @relation(fields: [tool_resource_id], references: [tool_resource_id])
+  roleToolsPermissions    RoleToolPermission[]
+  @@map("tool_resource_access_level")
+}
+
+model RoleToolPermission {
+  role_id                Int                    
+  tool_resource_access_id Int                     
+  role                   Role                    @relation(fields: [role_id], references: [role_id])
+  toolResourceAccessLevel ToolResourceAccessLevel @relation(fields: [tool_resource_access_id], references: [tool_resource_access_id])
+  @@id([role_id, tool_resource_access_id])
+  @@map("role_tool_permission")
+}
+
+
+model UserEntityRole {
+  user_id   Int
+  entity_id Int     
+  role_id   Int     
+  user User @relation(fields: [user_id], references: [user_id])
+  entity Entity @relation(fields: [entity_id], references: [entity_id])
+  role Role @relation(fields: [role_id], references: [role_id])
+  @@id([user_id, entity_id, role_id])
+  @@map("user_entity_role")
+}
+
+model UserToolAccount {
+  user_id Int 
+  tool_id Int 
+  user_tool_username String?
+  user User @relation(fields: [user_id], references: [user_id])
+  tool Tool @relation(fields: [tool_id], references: [tool_id])
+  @@id([user_id, tool_id])
+  @@map("user_tool_account")
+}
